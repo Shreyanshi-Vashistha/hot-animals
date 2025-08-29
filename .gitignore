@@ -1,0 +1,53 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Distribution / packaging
+*.egg-info/
+*.egg
+dist/
+build/
+.eggs/
+
+# Virtual environments
+.venv/
+venv/
+env/
+ENV/
+
+# Installer logs
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Unit test / coverage reports
+.coverage
+.tox/
+.nox/
+htmlcov/
+.coverage.*
+.cache/
+
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints
+
+# PyCharm / VS Code project settings
+.idea/
+.vscode/
+
+# OS-specific
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# ETL project artifacts (if you dump temp data)
+data/tmp/
+*.parquet
+*.csv
+*.json
+
+# Local configs / secrets (if any)
+.env
+*.secret
