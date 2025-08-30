@@ -7,6 +7,55 @@ from models import AnimalDetail, TransformedAnimal, TransformationError
 
 logger = logging.getLogger(__name__)
 
+def safe_transform_born_at(born_at_val) -> Optional[str]:
+    """
+    Safely transform born_at field to ISO8601 UTC timestamp.
+
+    Handles:
+    - datetime objects
+    - string dates
+    - numeric timestamps (seconds or milliseconds)
+    - very large integers
+
+    Returns None if value cannot be parsed.
+    """
+    if born_at_val is None or (isinstance(born_at_val, str) and born_at_val.strip() == ""):
+        return None
+
+    try:
+        # datetime object
+        if isinstance(born_at_val, datetime):
+            dt = born_at_val
+            if dt.tzinfo is None:
+                dt = dt.replace(tzinfo=tz.UTC)
+            else:
+                dt = dt.astimezone(tz.UTC)
+            return dt.isoformat()
+
+        # string
+        if isinstance(born_at_val, str):
+            try:
+                dt = parser.parse(born_at_val)
+                if dt.tzinfo is None:
+                    dt = dt.replace(tzinfo=tz.UTC)
+                else:
+                    dt = dt.astimezone(tz.UTC)
+                return dt.isoformat()
+            except (ValueError, parser.ParserError):
+                born_at_val = int(born_at_val)
+
+        # int/float (timestamp)
+        if isinstance(born_at_val, (int, float)):
+            if born_at_val > 1e12:
+                born_at_val = born_at_val / 1000
+            dt = datetime.utcfromtimestamp(born_at_val).replace(tzinfo=tz.UTC)
+            return dt.isoformat()
+
+    except Exception as e:
+        logger.warning(f"Invalid born_at value '{born_at_val}', setting to None: {e}")
+        return None
+
+
 def transform_friends(friends_str: str) -> List[str]:
     """
     Transform comma-delimited friends string to a list of strings.
@@ -97,12 +146,7 @@ def transform_animal(animal: AnimalDetail) -> TransformedAnimal:
             transformed_friends = transform_friends(animal.friends)
         
         # Transform born_at field
-        if isinstance(animal.born_at, datetime):
-            # Convert datetime to ISO string
-            transformed_born_at = animal.born_at.isoformat()
-        else:
-            # Transform from string
-            transformed_born_at = transform_born_at(animal.born_at)
+        transformed_born_at = safe_transform_born_at(animal.born_at)
             
         # Create the transformed animal
         transformed = TransformedAnimal(
