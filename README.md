@@ -12,52 +12,57 @@ A robust ETL (Extract, Transform, Load) system for processing animal data from H
 
 ### 1. Install Docker Desktop
 
-    Download and install Docker Desktop from [docker.com](https://www.docker.com/products/docker-desktop)
+Download and install Docker Desktop from https://www.docker.com/products/docker-desktop
 
-### 2. Download and Setup the Test API Server
-    # Download the Docker image
-    curl -O https://storage.googleapis.com/lp-dev-hiring/images/lp-programming-challenge-1-1625758668.tar.gz
+### 2. Clone the Repository
 
-    # Load the Docker image
-    docker load -i lp-programming-challenge-1-1625758668.tar.gz
+git clone https://github.com/Shreyanshi-Vashistha/hot-animals.git
+cd hot-animals
 
-    # Run the API server (this will start on localhost:3123)
-    docker run --rm -p 3123:3123 -ti lp-programming-challenge-1
+### 3. Download and Setup the Test API Server
 
-    git clone https://github.com/Shreyanshi-Vashistha/hot-animals.git
-    cd hot-animals
-    mkdir logs
+# Download the Docker image
+curl -O https://storage.googleapis.com/lp-dev-hiring/images/lp-programming-challenge-1-1625758668.tar.gz
 
-### 3. Setup Python Environment
-    # Create virtual environment
-    python -3.11 -m venv venv
+# Load the Docker image
+docker load -i lp-programming-challenge-1-1625758668.tar.gz
 
-    # Activate virtual environment
-    # On Windows:
-    .\venv\Scripts\activate
-    # On macOS/Linux:
-    source venv/bin/activate
+# Run the API server (this will start on localhost:3123)
+docker run --rm -p 3123:3123 -ti lp-programming-challenge-1
 
-    # Upgrade pip
-    python -m pip install --upgrade pip
+### 4. Setup Python Environment
 
-    # Install the package in development mode
-    pip install -e .
+# Create virtual environment
+python -3.11 -m venv venv
 
-### 3. Run the ETL process
+# Activate virtual environment
 
-    # with default settings
-    animal-etl --log-level INFO
+# On Windows:
+.\venv\Scripts\activate
 
-    # Custom configuration
-    animal-etl --base-url http://localhost:3123 --batch-size 50 --log-level DEBUG
+# On macOS/Linux:
+source venv/bin/activate
 
-    # Dry run (extract and transform only, no loading)
-    animal-etl --dry-run
+# Upgrade pip
+python -m pip install --upgrade pip
 
-    # Custom timeout and retry settings
-    animal-etl --timeout 60 --max-retries 5
+# Install the package in development mode
+pip install -e .
 
-### 4. Logging
+### 5. Run the ETL process
 
-    Logs are written to both console and file (animal_etl.log):
+# with default settings
+animal-etl --log-level INFO
+
+# Custom configuration
+animal-etl --base-url http://localhost:3123 --batch-size 50 --log-level DEBUG
+
+# Dry run (extract and transform only, no loading)
+animal-etl --dry-run
+
+# Custom timeout and retry settings
+animal-etl --timeout 60 --max-retries 5
+
+## Logging
+
+Logs are written to both console and file (animal_etl.log)
