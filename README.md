@@ -21,47 +21,47 @@ cd hot-animals
 
 ### 3. Download and Setup the Test API Server
 
-# Download the Docker image
-curl -O https://storage.googleapis.com/lp-dev-hiring/images/lp-programming-challenge-1-1625758668.tar.gz
+    # Download the Docker image
+    curl -O https://storage.googleapis.com/lp-dev-hiring/images/lp-programming-challenge-1-1625758668.tar.gz
 
-# Load the Docker image
-docker load -i lp-programming-challenge-1-1625758668.tar.gz
+    # Load the Docker image
+    docker load -i lp-programming-challenge-1-1625758668.tar.gz
 
-# Run the API server (this will start on localhost:3123)
-docker run --rm -p 3123:3123 -ti lp-programming-challenge-1
+    # Run the API server (this will start on localhost:3123)
+    docker run --rm -p 3123:3123 -ti lp-programming-challenge-1
 
 ### 4. Setup Python Environment
 
-# Create virtual environment
-python -3.11 -m venv venv
+    # Create virtual environment
+    python -3.11 -m venv venv
 
-# Activate virtual environment
+    # Activate virtual environment
 
-# On Windows:
-.\venv\Scripts\activate
+    # On Windows:
+    .\venv\Scripts\activate
 
-# On macOS/Linux:
-source venv/bin/activate
+    # On macOS/Linux:
+    source venv/bin/activate
 
-# Upgrade pip
-python -m pip install --upgrade pip
+    # Upgrade pip
+    python -m pip install --upgrade pip
 
-# Install the package in development mode
-pip install -e .
+    # Install the package in development mode
+    pip install -e .
 
 ### 5. Run the ETL process
 
-# with default settings
-animal-etl --log-level INFO
+    # with default settings
+    animal-etl --log-level INFO
 
-# Custom configuration
-animal-etl --base-url http://localhost:3123 --batch-size 50 --log-level DEBUG
+    # Custom configuration
+    animal-etl --base-url http://localhost:3123 --batch-size 50 --log-level DEBUG
 
-# Dry run (extract and transform only, no loading)
-animal-etl --dry-run
+    # Dry run (extract and transform only, no loading)
+    animal-etl --dry-run
 
-# Custom timeout and retry settings
-animal-etl --timeout 60 --max-retries 5
+    # Custom timeout and retry settings
+    animal-etl --timeout 60 --max-retries 5
 
 ## Logging
 
